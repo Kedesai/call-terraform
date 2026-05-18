@@ -3,7 +3,8 @@ name: 'Terraform Plan Summary'
 on:
   pull_request:
     paths:
-      - 'deployments/**'
+      - 'deployment/**'
+      - 'Deployment/**'
 
 
 jobs:
