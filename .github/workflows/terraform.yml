@@ -1,0 +1,71 @@
+name: 'Terraform'
+
+on:
+  workflow_dispatch: # Allows manual triggering from GitHub UI
+  push:
+    branches: [ "main" ]
+    paths:
+      - 'Deployments/**'
+  pull_request:
+    paths:
+      - 'Deployments/**'
+
+permissions:
+  contents: read
+
+jobs:
+  terraform:
+    name: 'Terraform'
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+ 
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+
+      - name: Detect Deployment Directory
+        id: detect
+        run: |
+          DIR=$(find Deployments -type f -name "main.tf" | head -n 1 | xargs dirname)
+          if [ -z "$DIR" ]; then
+            echo "No main.tf found in Deployments directory"
+            exit 1
+          fi
+          echo "dir=$DIR" >> $GITHUB_OUTPUT
+
+      - name: Terraform Format
+        run: terraform fmt -check
+        working-directory: ${{ steps.detect.outputs.dir }}
+
+      - name: Terraform Init
+        run: terraform init -input=false
+        working-directory: ${{ steps.detect.outputs.dir }}
+
+      - name: Terraform Validate
+        run: terraform validate
+        working-directory: ${{ steps.detect.outputs.dir }}
+
+     
+
+      - name: Terraform Plan
+        id: plan
+        run: terraform plan -input=false
+        working-directory: ${{ steps.detect.outputs.dir }}
+        if: github.event_name == 'pull_request'
+
+      - name: Terraform Apply
+        if: github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
+        run: terraform apply -auto-approve -input=false
+        working-directory: ${{ steps.detect.outputs.dir }}
