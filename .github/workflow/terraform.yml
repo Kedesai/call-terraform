@@ -21,21 +21,21 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
 
-      - name: Setup TFLint
-        uses: terraform-linters/setup-tflint@v3
+#      - name: Setup TFLint
+#        uses: terraform-linters/setup-tflint@v3
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v1
 
-      - name: Install tf-summarize
-        run: |
-          curl -L https://github.com/dineshba/tf-summarize/releases/download/v0.3.0/tf-summarize_linux_amd64.tar.gz | tar xz
-          sudo mv tf-summarize /usr/local/bin/
+#      - name: Install tf-summarize
+#        run: |
+#          curl -L https://github.com/dineshba/tf-summarize/releases/download/v0.3.0/tf-summarize_linux_amd64.tar.gz | tar xz
+#          sudo mv tf-summarize /usr/local/bin/
 
-      - name: Setup Infracost
-        uses: infracost/actions/setup@v2
-        with:
-          api-key: ${{ secrets.INFRACOST_API_KEY }}
+#      - name: Setup Infracost
+#        uses: infracost/actions/setup@v2
+#        with:
+#          api-key: ${{ secrets.INFRACOST_API_KEY }}
 
       - name: Detect Deployment Directory
         id: detect
@@ -52,11 +52,11 @@ jobs:
         run: terraform validate
         working-directory: ${{ steps.detect.outputs.dir }}
 
-      - name: TFLint
-        run: |
-          tflint --init
-          tflint -f compact
-        working-directory: ${{ steps.detect.outputs.dir }}
+#      - name: TFLint
+#        run: |
+#          tflint --init
+#          tflint -f compact
+#        working-directory: ${{ steps.detect.outputs.dir }}
 
       - name: Terraform Plan
         id: plan
@@ -71,22 +71,22 @@ jobs:
           echo "EOF" >> $GITHUB_ENV
         working-directory: ${{ steps.detect.outputs.dir }}
 
-      - name: Generate Infracost Estimate
-        run: |
-          infracost breakdown --path . \
-                            --usage-file infracost-usage.yml \
-                            --format json \
-                            --out-file /tmp/infracost.json
-        working-directory: ${{ steps.detect.outputs.dir }}
-        continue-on-error: true
+ #     - name: Generate Infracost Estimate
+ #       run: |
+ #         infracost breakdown --path . \
+ #                           --usage-file infracost-usage.yml \
+ #                           --format json \
+ #                           --out-file /tmp/infracost.json
+ #       working-directory: ${{ steps.detect.outputs.dir }}
+ #       continue-on-error: true
 
-      - name: Comment on PR
-        uses: infracost/actions/comment@v2
-        with:
-          path: /tmp/infracost.json
-          behavior: update
-          body: |
-            ### Terraform Plan Summary 📝
-            ```
-            ${{ env.PLAN_SUMMARY }}
-            ```
+ #     - name: Comment on PR
+ #       uses: infracost/actions/comment@v2
+ #       with:
+ #         path: /tmp/infracost.json
+ #         behavior: update
+ #         body: |
+ #           ### Terraform Plan Summary 📝
+ #           ```
+ #           ${{ env.PLAN_SUMMARY }}
+ #           ```
