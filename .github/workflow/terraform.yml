@@ -5,11 +5,11 @@ on:
     branches: [ "main" ]
     paths:
       - 'Deployments/**'
-      - 'Deployment/**'
+      - 'Deployment/dev/main.tf'
       - 'Deployments/**'
   pull_request:
     paths:
-      - 'Deployments/**'
+      - 'Deployments/dev/main.tf'
       - 'Deployment/**'
       - 'Deployments/**'
 
@@ -49,12 +49,12 @@ jobs:
 #        with:
 #          api-key: ${{ secrets.INFRACOST_API_KEY }}
 
-      - name: Detect Deployment Directory
-        id: detect
-        run: |
-          # Find the directory containing the main.tf file in deployments/
-          DIR=$(find Deployments/dev -name "main.tf" -exec dirname {} \; | head -n 1)
-          echo "dir=$DIR" >> $GITHUB_OUTPUT
+#      - name: Detect Deployment Directory
+#        id: detect
+#        run: |
+#          # Find the directory containing the main.tf file in deployments/
+#          DIR=$(find Deployments/dev -name "main.tf" -exec dirname {} \; | head -n 1)
+#          echo "dir=$DIR" >> $GITHUB_OUTPUT
 
       - name: Terraform Init
         run: terraform init -backend-config="region=us-east-1"
