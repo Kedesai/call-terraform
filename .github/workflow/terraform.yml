@@ -40,7 +40,7 @@ jobs:
         id: detect
         run: |
           # Find the directory containing the main.tf file in deployments/
-          DIR=$(find deployments -name "main.tf" -exec dirname {} \; | head -n 1)
+          DIR=$(find Deployments -name "main.tf" -exec dirname {} \; | head -n 1)
           echo "dir=$DIR" >> $GITHUB_OUTPUT
 
       - name: Terraform Init
