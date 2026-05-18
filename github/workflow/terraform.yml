@@ -73,9 +73,11 @@ jobs:
       - name: Generate Infracost Estimate
         run: |
           infracost breakdown --path . \
+                            --usage-file infracost-usage.yml \
                             --format json \
                             --out-file /tmp/infracost.json
         working-directory: ${{ steps.detect.outputs.dir }}
+        continue-on-error: true
 
       - name: Comment on PR
         uses: infracost/actions/comment@v2
