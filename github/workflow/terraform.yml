@@ -5,6 +5,7 @@ on:
     paths:
       - 'deployments/**'
 
+
 jobs:
   terraform:
     name: 'Terraform'
