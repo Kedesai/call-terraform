@@ -1,10 +1,13 @@
+# THIS FILE MUST BE MOVED TO .github/workflows/terraform.yml
 name: 'Terraform Plan Summary'
 
 on:
   pull_request:
     paths:
       - 'Deployments/**'
-      - 'deployments/**'
+
+jobs:
+  terraform:
 
 jobs:
   terraform:
@@ -40,8 +43,8 @@ jobs:
       - name: Detect Deployment Directory
         id: detect
         run: |
-          # Find the directory containing the main.tf file in Deployment/
-          DIR=$(find Deployment -name "main.tf" -exec dirname {} \; | head -n 1)
+          # Find the directory containing the main.tf file in Deployments/
+          DIR=$(find Deployments -name "main.tf" -exec dirname {} \; | head -n 1)
           echo "dir=$DIR" >> $GITHUB_OUTPUT
 
       - name: Terraform Init
