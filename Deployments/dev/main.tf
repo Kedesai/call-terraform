@@ -12,16 +12,22 @@ provider "aws" {
 }
 
 data "aws_vpc" "selected" {
-  filter {
-    name   = "tag:Environment"
-    values = ["dev"]
-  }
+  default = true
 }
 
 data "aws_subnets" "selected" {
   filter {
     name   = "vpc-id"
     values = [data.aws_vpc.selected.id]
+  }
+}
+
+data "aws_ami" "free_tier" {
+  most_recent = true
+  owners      = ["amazon"]
+  filter {
+    name   = "name"
+    values = ["al2023-ami-*-x86_64"]
   }
 }
 
