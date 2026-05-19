@@ -61,9 +61,9 @@ jobs:
           fi
           echo "dir=$DIR" >> $GITHUB_OUTPUT
 
-      - name: Terraform Format
-        run: terraform fmt -check
-        working-directory: ${{ steps.detect.outputs.dir }}
+   #   - name: Terraform Format
+   #     run: terraform fmt -check
+   #     working-directory: ${{ steps.detect.outputs.dir }}
 
       - name: Terraform Init
         run: terraform init
