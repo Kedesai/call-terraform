@@ -36,19 +36,16 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
 
-      - name: Grant access to private modules
-        run: git config --global url."https://${{ secrets.MODULE_AUTH_TOKEN || secrets.GITHUB_TOKEN }}:x-oauth-basic@github.com/".insteadOf "https://github.com/"
-
       - name: Setup TFLint
         uses: terraform-linters/setup-tflint@v3
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
 
- #     - name: Install tf-summarize
- #       run: |
- #         curl -L https://github.com/dineshba/tf-summarize/releases/download/v0.3.0/tf-summarize_linux_amd64.tar.gz | tar xz
- #         sudo mv tf-summarize /usr/local/bin/
+#      - name: Install tf-summarize
+#        run: |
+#          curl -L https://github.com/dineshba/tf-summarize/releases/download/v0.3.0/tf-summarize_linux_amd64.tar.gz | tar xz
+#          sudo mv tf-summarize /usr/local/bin/
 
       - name: Detect Deployment Directory
         id: detect
@@ -61,9 +58,9 @@ jobs:
           fi
           echo "dir=$DIR" >> $GITHUB_OUTPUT
 
-   #   - name: Terraform Format
-   #     run: terraform fmt -check
-   #     working-directory: ${{ steps.detect.outputs.dir }}
+#      - name: Terraform Format
+#        run: terraform fmt -check
+#        working-directory: ${{ steps.detect.outputs.dir }}
 
       - name: Terraform Init
         run: terraform init
