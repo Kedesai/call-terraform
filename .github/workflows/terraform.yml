@@ -45,10 +45,10 @@ jobs:
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
 
-      - name: Install tf-summarize
-        run: |
-          curl -L https://github.com/dineshba/tf-summarize/releases/download/v0.3.0/tf-summarize_linux_amd64.tar.gz | tar xz
-          sudo mv tf-summarize /usr/local/bin/
+ #     - name: Install tf-summarize
+ #       run: |
+ #         curl -L https://github.com/dineshba/tf-summarize/releases/download/v0.3.0/tf-summarize_linux_amd64.tar.gz | tar xz
+ #         sudo mv tf-summarize /usr/local/bin/
 
       - name: Detect Deployment Directory
         id: detect
