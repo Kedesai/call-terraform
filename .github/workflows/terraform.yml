@@ -12,7 +12,7 @@ on:
 
 permissions:
   contents: read
-  # pull-requests: write # Only required if you re-enable PR commenting
+  pull-requests: write # Required for commenting if you add that back later
 
 jobs:
   terraform:
