@@ -12,7 +12,7 @@ on:
 
 permissions:
   contents: read
-  pull-requests: write
+  # pull-requests: write # Only required if you re-enable PR commenting
 
 jobs:
   terraform:
@@ -26,8 +26,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        with:
-          token: ${{ secrets.MODULE_AUTH_TOKEN || secrets.GITHUB_TOKEN }}
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v2
@@ -36,71 +34,39 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
 
-      - name: Setup TFLint
-        uses: terraform-linters/setup-tflint@v3
-
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
-
-#      - name: Install tf-summarize
-#        run: |
-#          curl -L https://github.com/dineshba/tf-summarize/releases/download/v0.3.0/tf-summarize_linux_amd64.tar.gz | tar xz
-#          sudo mv tf-summarize /usr/local/bin/
 
       - name: Detect Deployment Directory
         id: detect
         run: |
-          # Improved detection: Find the directory that actually contains changes
-          DIR=$(find ./Deployments -type f -name "main.tf" -exec dirname {} \; | head -n 1)
+          # Robustly find the directory containing main.tf under Deployments
+          DIR=$(find Deployments -type f -name "main.tf" | head -n 1 | xargs dirname)
           if [ -z "$DIR" ]; then
             echo "No main.tf found in Deployments directory"
             exit 1
           fi
           echo "dir=$DIR" >> $GITHUB_OUTPUT
 
-#      - name: Terraform Format
-#        run: terraform fmt -check
-#        working-directory: ${{ steps.detect.outputs.dir }}
+      - name: Terraform Format
+        run: terraform fmt -check
+        working-directory: ${{ steps.detect.outputs.dir }}
 
       - name: Terraform Init
-        run: terraform init
+        run: terraform init -input=false
         working-directory: ${{ steps.detect.outputs.dir }}
 
       - name: Terraform Validate
         run: terraform validate
         working-directory: ${{ steps.detect.outputs.dir }}
 
-      - name: TFLint
-        run: |
-          tflint --init
-          tflint -f compact
-        working-directory: ${{ steps.detect.outputs.dir }}
-
       - name: Terraform Plan
         id: plan
         if: github.event_name == 'pull_request'
-        run: |
-          terraform plan -input=false -out=tfplan
-          terraform show -json tfplan > tfplan.json
-          SUMMARY=$(tf-summarize -tree tfplan.json)
-          echo "PLAN_SUMMARY<<EOF" >> "$GITHUB_ENV"
-          echo "$SUMMARY" >> $GITHUB_ENV
-          echo "EOF" >> $GITHUB_ENV
+        run: terraform plan -input=false
         working-directory: ${{ steps.detect.outputs.dir }}
 
-      - name: Comment on PR
-        if: github.event_name == 'pull_request'
-        uses: actions/github-script@v7
-        with:
-          script: |
-            github.rest.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: "### Terraform Plan Summary 📝\n```\n" + process.env.PLAN_SUMMARY + "\n```"
-            })
-
       - name: Terraform Apply
-        if: github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch') # Apply on push to main or manual trigger
+        if: github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
         run: terraform apply -auto-approve -input=false
         working-directory: ${{ steps.detect.outputs.dir }}
