@@ -5,12 +5,6 @@ terraform {
       version = "~> 5.0"
     }
   }
-
-  backend "s3" {
-    bucket = "my-org-tf-state" # Replace with your actual bucket
-    key    = "Deployments/dev/manual-test/terraform.tfstate"
-    region = "us-east-1"
-  }
 }
 
 provider "aws" {
@@ -32,7 +26,7 @@ data "aws_subnets" "selected" {
 }
 
 module "my_ec2" {
-  source        = "git::https://github.com/ketandesai/terraform.git//ec2?ref=main"
+  source        = "git::https://github.com/kedesai/terraform.git//ec2?ref=main"
   instance_name = "manual-test-vm"
   environment   = "dev"
   subnet_id     = data.aws_subnets.selected.ids[0]
@@ -43,6 +37,5 @@ module "my_ec2" {
     Environment = "dev"
     ManagedBy   = "manual"
     Owner       = "ketandesai"
-    email       = "ketandesai@yahoo.com"
   }
 }
