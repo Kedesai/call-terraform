@@ -20,17 +20,6 @@ module "vpc" {
   availability_zones   = ["us-east-1a", "us-east-1b"]
 }
 
-data "aws_vpc" "selected" {
-  default = true
-}
-
-data "aws_subnets" "selected" {
-  filter {
-    name   = "vpc-id"
-    values = [data.aws_vpc.selected.id]
-  }
-}
-
 data "aws_ami" "free_tier" {
   most_recent = true
   owners      = ["amazon"]
