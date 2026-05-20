@@ -37,6 +37,11 @@ jobs:
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
 
+      - name: Setup Infracost
+        uses: infracost/actions/setup@v2
+        with:
+          api-key: ${{ secrets.INFRACOST_API_KEY }}
+
       - name: Detect Deployment Directory
         id: detect
         run: |
@@ -60,17 +65,26 @@ jobs:
         run: terraform validate
         working-directory: ${{ steps.detect.outputs.dir }}
 
-#      - name: Terraform Plan
-#        id: plan
-#        if: github.event_name == 'pull_request'
-#        run: terraform plan -input=false
-#        working-directory: ${{ steps.detect.outputs.dir }}
+      - name: Terraform Plan
+        id: plan
+        if: github.event_name == 'pull_request'
+        run: terraform plan -input=false
+        working-directory: ${{ steps.detect.outputs.dir }}
 
       - name: Terraform Apply
         if: github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
         run: terraform apply -auto-approve -input=false
         working-directory: ${{ steps.detect.outputs.dir }}
 
-      - name: Terraform Destroy
-        run: terraform destroy -auto-approve -input=false
+      - name: Generate Infracost Estimate
+        run: |
+          infracost breakdown --path . \
+                            --usage-file infracost-usage.yml \
+                            --format json \
+                            --out-file /tmp/infracost.json
         working-directory: ${{ steps.detect.outputs.dir }}
+        continue-on-error: true
+
+#      - name: Terraform Destroy
+#         run: terraform destroy -auto-approve -input=false
+#         working-directory: ${{ steps.detect.outputs.dir }}
