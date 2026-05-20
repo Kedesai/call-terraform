@@ -76,15 +76,6 @@ jobs:
  #       run: terraform apply -auto-approve -input=false
  #       working-directory: ${{ steps.detect.outputs.dir }}
 
-      - name: Generate Infracost Estimate
-        run: |
-          infracost breakdown --path . \
-                            --usage-file infracost-usage.yml \
-                            --format json \
-                            --out-file /tmp/infracost.json
-        working-directory: ${{ steps.detect.outputs.dir }}
-        continue-on-error: true
-
       - name: Terraform Destroy
-         run: terraform destroy -auto-approve -input=false
-         working-directory: ${{ steps.detect.outputs.dir }}
+        run: terraform destroy -auto-approve -input=false
+        working-directory: ${{ steps.detect.outputs.dir }}
