@@ -85,6 +85,17 @@ jobs:
         working-directory: ${{ steps.detect.outputs.dir }}
         continue-on-error: true
 
+      - name: Comment on PR
+        uses: infracost/actions/comment@v2
+        with:
+          path: /tmp/infracost.json
+          behavior: update
+          body: |
+            ### Terraform Plan Summary 📝
+            ```
+            ${{ env.PLAN_SUMMARY }}
+            ```
+
 #      - name: Terraform Destroy
 #         run: terraform destroy -auto-approve -input=false
 #         working-directory: ${{ steps.detect.outputs.dir }}
