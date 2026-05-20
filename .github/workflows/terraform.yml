@@ -66,10 +66,10 @@ jobs:
 #        run: terraform plan -input=false
 #        working-directory: ${{ steps.detect.outputs.dir }}
 
-#      - name: Terraform Apply
-#        if: github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
-#        run: terraform apply -input=true
-#        working-directory: ${{ steps.detect.outputs.dir }}
+      - name: Terraform Apply
+        if: github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
+        run: terraform auto-apply -input=false
+        working-directory: ${{ steps.detect.outputs.dir }}
 
       - name: Terraform Destroy
         run: terraform destroy -auto-approve -input=false
