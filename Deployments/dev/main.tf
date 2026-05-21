@@ -94,24 +94,6 @@ module "eks" {
   node_role_arn    = "arn:aws:iam::791970555359:role/dev-eks-node-role"
 
 
-
-  ################################
-  # OPTIONAL EXISTING IAM ROLES
-  #################################
-
-  variable "cluster_role_arn" {
-    description = "Existing IAM role ARN for EKS control plane"
-    type        = string
-    default     = null
-  }
-
-  variable "node_role_arn" {
-    description = "Existing IAM role ARN for worker nodes"
-    type        = string
-    default     = null
-  }
-
-
   #################################
   # NODE GROUPS
   #################################
