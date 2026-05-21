@@ -52,22 +52,6 @@ data "aws_vpc" "existing" {
   id = "vpc-0df35472004c2a07d" #  replace with your VPC ID
 }
 
-#################################
-# EXISTING PRIVATE SUBNETS
-#################################
-
-data "aws_subnets" "private" {
-  filter {
-    name   = "vpc-id"
-    values = [data.aws_vpc.existing.id]
-  }
-
-  # OPTIONAL: filter private subnets only (recommended)
-  tags = {
-    Type = "private"
-  }
-}
-
 
 module "eks" {
   source = "git::https://github.com/kedesai/terraform.git//eks?ref=main"
@@ -85,6 +69,13 @@ module "eks" {
     "subnet-0f488043a31321b72"  # us-east-1b
   ]
 
+  #################################
+  #  REQUIRED VARIABLES (CRITICAL)
+  #################################
+
+  created_by    = "github-actions"
+  pipeline_name = "Dev-EKS-Provisioning"
+  run_id        = "manual-run"
 
   #################################
   # PASS ARNs HERE (CORRECT PLACE)
