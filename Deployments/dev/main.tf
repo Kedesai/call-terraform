@@ -115,10 +115,13 @@ module "eks" {
   tags = {
     Name        = "dev-eks"
     Environment = "dev"
-
+    created_by   = "github-actions"
+    pipeline_name = "Dev-EKS-Provisioning"
+    run_id        = "manual-run"
     ManagedBy = "terraform"
     Owner     = "ketandesai"
 
     "kubernetes.io/cluster/dev-eks" = "owned"
   }
 }
+
