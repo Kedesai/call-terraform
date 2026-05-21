@@ -86,7 +86,7 @@ module "eks" {
   ]
 
 
-#################################
+  #################################
   # PASS ARNs HERE (CORRECT PLACE)
   #################################
 
@@ -95,21 +95,21 @@ module "eks" {
 
 
 
-################################
-# OPTIONAL EXISTING IAM ROLES
-#################################
+  ################################
+  # OPTIONAL EXISTING IAM ROLES
+  #################################
 
-variable "cluster_role_arn" {
-  description = "Existing IAM role ARN for EKS control plane"
-  type        = string
-  default     = null
-}
+  variable "cluster_role_arn" {
+    description = "Existing IAM role ARN for EKS control plane"
+    type        = string
+    default     = null
+  }
 
-variable "node_role_arn" {
-  description = "Existing IAM role ARN for worker nodes"
-  type        = string
-  default     = null
-}
+  variable "node_role_arn" {
+    description = "Existing IAM role ARN for worker nodes"
+    type        = string
+    default     = null
+  }
 
 
   #################################
