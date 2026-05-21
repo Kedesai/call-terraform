@@ -60,7 +60,7 @@ module "vpc" {
 #################################
 
 module "eks" {
-  source = "git::https://github.com/kedesai/terraform.git//eks?ref=main
+  source = "git::https://github.com/kedesai/terraform.git//eks?ref=main"
 
   region       = "us-east-1"
   cluster_name = "dev-eks"
