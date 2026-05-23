@@ -52,6 +52,17 @@ data "aws_vpc" "existing" {
   id = "vpc-0df35472004c2a07d" #  replace with your VPC ID
 }
 
+data "aws_subnets" "private" {
+  filter {
+    name   = "vpc-id"
+    values = [data.aws_vpc.existing.id]
+  }
+
+  tags = {
+    Tier = "private"
+  }
+}
+
 
 module "eks" {
   source = "git::https://github.com/kedesai/terraform.git//eks?ref=main"
@@ -63,12 +74,13 @@ module "eks" {
   # NETWORKING
   #################################
 
-  vpc_id = data.aws_vpc.existing.id
+  vpc_id     = data.aws_vpc.existing.id
+  subnet_ids = data.aws_subnets.existing.ids
 
-  subnet_ids = [
-    aws_subnet.private_a.id,
-    aws_subnet.private_b.id
-  ]
+  #subnet_ids = [
+  #  aws_subnet.private_a.id,
+  #  aws_subnet.private_b.id
+  #]
 
   #################################
   #  REQUIRED VARIABLES (CRITICAL)
