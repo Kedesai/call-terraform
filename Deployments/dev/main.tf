@@ -57,16 +57,17 @@ module "eks" {
   source = "git::https://github.com/kedesai/terraform.git//eks?ref=main"
 
   region       = "us-east-1"
-  cluster_name = "deve-eks"
+  cluster_name = "dev-eks"
 
   #################################
   # NETWORKING
   #################################
 
   vpc_id = data.aws_vpc.existing.id
+
   subnet_ids = [
-    "subnet-0ef6e2bfb64babf65", # us-east-1a
-    "subnet-0f488043a31321b72"  # us-east-1b
+    aws_subnet.private_a.id,
+    aws_subnet.private_b.id
   ]
 
   #################################
