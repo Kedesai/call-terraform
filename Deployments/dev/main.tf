@@ -72,6 +72,11 @@ data "aws_subnets" "private" {
 # EKS MODULE
 #################################
 
+
+#################################
+# EKS MODULE
+#################################
+
 module "eks" {
   source = "git::https://github.com/kedesai/terraform.git//eks?ref=main"
 
