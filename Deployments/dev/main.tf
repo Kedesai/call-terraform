@@ -81,13 +81,8 @@ module "eks" {
   region       = "us-east-1"
   cluster_name = "dev-eks"
 
-  vpc_id = data.aws_vpc.existing.id
-  #subnet_ids = data.aws_subnets.existing.ids
-
-  subnet_ids = [
-    aws_subnet.private_a.id,
-    aws_subnet.private_b.id
-  ]
+  vpc_id     = data.aws_vpc.existing.id
+  subnet_ids = data.aws_subnets.existing.ids
 
 
   created_by    = "github-actions"
