@@ -64,10 +64,11 @@ module "eks" {
   #################################
 
   vpc_id = data.aws_vpc.existing.id
-  subnet_ids = [
-    "subnet-0ef6e2bfb64babf65", # us-east-1a
-    "subnet-0f488043a31321b72"  # us-east-1b
-  ]
+  
+subnet_ids = [
+  aws_subnet.private_a.id,
+  aws_subnet.private_b.id
+]
 
   #################################
   #  REQUIRED VARIABLES (CRITICAL)
