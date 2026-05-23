@@ -57,10 +57,14 @@ data "aws_vpc" "existing" {
 # EXISTING SUBNETS (REQUIRED FIX)
 #################################
 
-data "aws_subnets" "existing" {
+data "aws_subnets" "private" {
   filter {
     name   = "vpc-id"
     values = [data.aws_vpc.existing.id]
+  }
+
+  tags = {
+    Tier = "private"
   }
 }
 
