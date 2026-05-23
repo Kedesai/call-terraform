@@ -52,17 +52,21 @@ data "aws_vpc" "existing" {
   id = "vpc-0df35472004c2a07d" #  replace with your VPC ID
 }
 
-data "aws_subnets" "private" {
+
+#################################
+# EXISTING SUBNETS (REQUIRED FIX)
+#################################
+
+data "aws_subnets" "existing" {
   filter {
     name   = "vpc-id"
     values = [data.aws_vpc.existing.id]
   }
-
-  tags = {
-    Tier = "private"
-  }
 }
 
+#################################
+# EKS MODULE
+#################################
 
 module "eks" {
   source = "git::https://github.com/kedesai/terraform.git//eks?ref=main"
@@ -70,37 +74,15 @@ module "eks" {
   region       = "us-east-1"
   cluster_name = "dev-eks"
 
-  #################################
-  # NETWORKING
-  #################################
-
   vpc_id     = data.aws_vpc.existing.id
   subnet_ids = data.aws_subnets.existing.ids
-
-  #subnet_ids = [
-  #  aws_subnet.private_a.id,
-  #  aws_subnet.private_b.id
-  #]
-
-  #################################
-  #  REQUIRED VARIABLES (CRITICAL)
-  #################################
 
   created_by    = "github-actions"
   pipeline_name = "Dev-EKS-Provisioning"
   run_id        = "manual-run"
 
-  #################################
-  # PASS ARNs HERE (CORRECT PLACE)
-  #################################
-
   cluster_role_arn = "arn:aws:iam::791970555359:role/eks-control-plane"
   node_role_arn    = "arn:aws:iam::791970555359:role/dev-eks-node-role"
-
-
-  #################################
-  # NODE GROUPS
-  #################################
 
   node_groups = {
     default = {
@@ -111,10 +93,6 @@ module "eks" {
       capacity_type  = "ON_DEMAND"
     }
   }
-
-  #################################
-  # TAGS
-  #################################
 
   tags = {
     Name          = "dev-eks"
