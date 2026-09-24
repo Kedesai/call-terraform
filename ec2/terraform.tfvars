@@ -1,4 +1,4 @@
-aws_region = "us-east-2"
+aws_region = "us-east-1"
 
 instance_name = "ketan-test-ec2"
 environment   = "dev"
