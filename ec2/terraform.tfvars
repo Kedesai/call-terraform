@@ -20,4 +20,5 @@ tags = {
   Environment = "dev"
   Owner       = "ketan"
   Region      = "us-east-1"
+  Zone        = "us-east-1a"
 }
