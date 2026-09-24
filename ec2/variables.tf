@@ -25,6 +25,16 @@ variable "ami_id" {
   default     = null
 }
 
+variable "ami_owner" {
+  description = "AWS account ID that owns the approved AMI"
+  type        = string
+}
+
+variable "ami_name" {
+  description = "Approved AMI name"
+  type        = string
+}
+
 variable "subnet_id" {
   description = "Existing subnet ID"
   type        = string

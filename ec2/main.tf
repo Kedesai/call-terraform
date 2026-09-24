@@ -9,6 +9,8 @@ module "ec2" {
   environment   = var.environment
   instance_type = var.instance_type
   ami_id        = var.ami_id
+  ami_owner     = var.ami_owner
+  ami_name      = var.ami_name
 
   subnet_id              = var.subnet_id
   vpc_security_group_ids = var.vpc_security_group_ids
