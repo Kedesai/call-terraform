@@ -6,6 +6,9 @@ environment   = "dev"
 
 instance_type = "t3a.small"
 
+ami_owner = "853826937896"
+ami_name  = "UBUNTU-22-PRO-x86 2026-09-01T08-00-32.122Z"
+
 subnet_id = "subnet-0f488043a31321b72"
 
 vpc_security_group_ids = [
