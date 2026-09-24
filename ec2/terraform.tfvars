@@ -19,4 +19,5 @@ tags = {
   Application = "terraform-test"
   Environment = "dev"
   Owner       = "ketan"
+  Region      = "us-east-1"
 }
