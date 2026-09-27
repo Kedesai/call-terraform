@@ -15,7 +15,7 @@ vpc_security_group_ids = [
   "sg-09d996e9e924d8bce"
 ]
 
-root_volume_size = 20
+root_volume_size = 40
 root_volume_type = "gp3"
 
 tags = {
