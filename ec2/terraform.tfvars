@@ -4,7 +4,7 @@ instance_name = "ketan-test-ec2"
 environment   = "dev"
 
 
-instance_type = "t3a.small"
+instance_type = "t3a.large"
 
 ami_owner = "853826937896"
 ami_name  = "UBUNTU-22-PRO-x86 2026-09-01T08-00-32.122Z"
