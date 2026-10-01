@@ -1,0 +1,31 @@
+aws_region = "us-east-2"
+default_tags = { ManagedBy = "Terraform", Component = "aws-landing-zone" }
+
+organizational_units = {
+  security       = { name = "Security" }
+  infrastructure = { name = "Infrastructure" }
+  workloads      = { name = "Workloads" }
+}
+
+# Replace example addresses with unique mailbox addresses owned by your organization.
+accounts = {
+  log_archive = { name = "Log Archive", email = "aws-log-archive@example.com", ou_key = "security" }
+  audit       = { name = "Audit",       email = "aws-audit@example.com",       ou_key = "security" }
+  network     = { name = "Network",     email = "aws-network@example.com",     ou_key = "infrastructure" }
+  dev         = { name = "Development", email = "aws-dev@example.com",         ou_key = "workloads" }
+}
+
+service_control_policies = {
+  deny_leave_org = {
+    name        = "DenyLeaveOrganization"
+    description = "Example guardrail denying organizations:LeaveOrganization."
+    content = jsonencode({
+      Version = "2012-10-17"
+      Statement = [{ Effect = "Deny", Action = ["organizations:LeaveOrganization"], Resource = "*" }]
+    })
+  }
+}
+
+scp_attachments = {
+  workloads_deny_leave = { policy_key = "deny_leave_org", target_type = "ou", target_key = "workloads" }
+}
