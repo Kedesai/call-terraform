@@ -23,3 +23,5 @@ module "ec2" {
 
   tags = var.tags
 }
+
+
