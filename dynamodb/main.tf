@@ -3,7 +3,7 @@ provider "aws" {
 }
 
 module "dynamodb" {
-  source = "git::https://github.com/Kedesai/terraform.git//dynamodb?ref=main"
+  source = "git::https://github.com/Kedesai/terraform.git//dynamodb?ref=34dbcabc1f4a6d2ec15a57d20ff087aa78947b84"
 
   table_name  = var.table_name
   environment = var.environment
