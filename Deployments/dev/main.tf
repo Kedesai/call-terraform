@@ -81,7 +81,7 @@ module "eks" {
   region       = "us-east-1"
   cluster_name = "dev-eks"
 
-  vpc_id     = data.aws_vpc.existing.id
+  #vpc_id     = data.aws_vpc.existing.id
   subnet_ids = data.aws_subnets.existing.ids
 
 
