@@ -3,7 +3,7 @@ provider "aws" {
 }
 
 module "s3" {
-  source = "git::https://github.com/Kedesai/terraform.git//s3?ref=main"
+  source = "git::https://github.com/Kedesai/terraform.git//s3?ref=34dbcabc1f4a6d2ec15a57d20ff087aa78947b84"
 
   bucket_name = var.bucket_name
   environment = var.environment
