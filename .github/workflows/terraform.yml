@@ -38,7 +38,6 @@ jobs:
         with:
           directory: .
           framework: terraform
-          skip-check: CKV_TF_2
           soft_fail: false
 
       - name: Configure AWS Credentials
