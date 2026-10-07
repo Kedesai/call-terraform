@@ -21,7 +21,7 @@ data "aws_iam_policy_document" "ec2_assume_role" {
 }
 
 module "iam" {
-  source = "git::https://github.com/Kedesai/terraform.git//iam?ref=main"
+  source = "git::https://github.com/Kedesai/terraform.git//iam?ref=34dbcabc1f4a6d2ec15a57d20ff087aa78947b84"
 
   role_name   = var.role_name
   environment = var.environment
