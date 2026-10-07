@@ -3,7 +3,7 @@ provider "aws" {
 }
 
 module "eks" {
-  source = "git::https://github.com/Kedesai/terraform.git//eks?ref=main"
+  source = "git::https://github.com/Kedesai/terraform.git//eks?ref=34dbcabc1f4a6d2ec15a57d20ff087aa78947b84"
 
   region          = var.region
   cluster_name    = var.cluster_name
