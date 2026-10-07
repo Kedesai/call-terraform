@@ -3,7 +3,7 @@ provider "aws" {
 }
 
 module "ec2" {
-  source = "git::https://github.com/Kedesai/terraform.git//ec2?ref=main"
+  source = "git::https://github.com/Kedesai/terraform.git//ec2?ref=34dbcabc1f4a6d2ec15a57d20ff087aa78947b84"
 
   instance_name = var.instance_name
   environment   = var.environment
