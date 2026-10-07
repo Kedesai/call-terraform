@@ -3,7 +3,7 @@ provider "aws" {
 }
 
 module "rds" {
-  source = "git::https://github.com/Kedesai/terraform.git//rds?ref=main"
+  source = "git::https://github.com/Kedesai/terraform.git//rds?ref=34dbcabc1f4a6d2ec15a57d20ff087aa78947b84"
 
   db_instance_identifier = var.db_instance_identifier
   environment            = var.environment
