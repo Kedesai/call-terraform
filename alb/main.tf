@@ -3,7 +3,7 @@ provider "aws" {
 }
 
 module "alb" {
-  source = "git::https://github.com/Kedesai/terraform.git//alb?ref=main"
+  source = "git::https://github.com/Kedesai/terraform.git//alb?ref=34dbcabc1f4a6d2ec15a57d20ff087aa78947b84"
 
   alb_name    = var.alb_name
   environment = var.environment
