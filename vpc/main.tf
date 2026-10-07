@@ -3,7 +3,7 @@ provider "aws" {
 }
 
 module "vpc" {
-  source = "git::https://github.com/Kedesai/terraform.git//vpc?ref=main"
+  source = "git::https://github.com/Kedesai/terraform.git//vpc?ref=34dbcabc1f4a6d2ec15a57d20ff087aa78947b84"
 
   create_vpc  = var.create_vpc
   environment = var.environment
