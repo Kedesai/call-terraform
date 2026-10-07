@@ -12,7 +12,7 @@ provider "aws" {
 }
 
 #module "vpc" {
-#  source               = "git::https://github.com/kedesai/Terraform.git//vpc?ref=34dbcabc1f4a6d2ec15a57d20ff087aa78947b84"
+#  source               = "git::https://github.com/kedesai/Terraform.git//vpc?ref=832b9504a0cff0c7c1b73c47e43f0366ee4ce610"
 #  vpc_cidr             = "10.0.0.0/16"
 #  environment          = "dev"
 #  public_subnet_cidrs  = ["10.0.1.0/24", "10.0.2.0/24"]
@@ -30,7 +30,7 @@ provider "aws" {
 #}
 
 #module "my_ec2" {
-#  source        = "git::https://github.com/kedesai/terraform.git//ec2?ref=34dbcabc1f4a6d2ec15a57d20ff087aa78947b84"
+#  source        = "git::https://github.com/kedesai/terraform.git//ec2?ref=832b9504a0cff0c7c1b73c47e43f0366ee4ce610"
 #  instance_name = "manual-test-vm"
 #  environment   = "dev"
 #  # subnet_id     = module.vpc.private_subnet_ids[0]#
@@ -76,7 +76,7 @@ data "aws_subnets" "existing" {
 #################################
 
 module "eks" {
-  source = "git::https://github.com/kedesai/terraform.git//eks?ref=34dbcabc1f4a6d2ec15a57d20ff087aa78947b84"
+  source = "git::https://github.com/kedesai/terraform.git//eks?ref=832b9504a0cff0c7c1b73c47e43f0366ee4ce610"
 
   region       = "us-east-1"
   cluster_name = "dev-eks"
