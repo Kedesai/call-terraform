@@ -3,7 +3,7 @@ provider "aws" {
 }
 
 module "sns" {
-  source = "git::https://github.com/Kedesai/terraform.git//sns?ref=main"
+  source = "git::https://github.com/Kedesai/terraform.git//sns?ref=34dbcabc1f4a6d2ec15a57d20ff087aa78947b84"
 
   topic_name   = var.topic_name
   environment  = var.environment
